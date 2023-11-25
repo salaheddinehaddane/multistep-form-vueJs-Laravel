@@ -17,8 +17,8 @@
                                     <p class="text-center">
                                         {{ item.question }}
                                     </p>
-                                    <div v-for="option in item.options" :key="option.id">
-                                        <input v-model="inputs[option]" class="form-check-input" type="radio" :name="item.id" :value="option"
+                                    <div v-for="option in item.options">
+                                        <input v-model="inputs[item.id]" class="form-check-input" type="radio" :name="item.id" :value="option"
                                             :id="option">
                                         <label class="form-check-label" :for="option">{{ option }}</label>
                                     </div>
@@ -42,6 +42,7 @@
             </div>
         </div>
     </div>
+    {{ inputs }}
 </template>
 
 
@@ -52,7 +53,7 @@ export default {
         return {
             data: {},
             progress: 1,
-            inputs:[],
+            inputs:{},
         }
     },
     mounted() {
@@ -60,6 +61,7 @@ export default {
     },
     methods: {
         action(e,id) {
+            console.log(this.inputs);
             if (e == 'next') {
                 this.progress++;
                 let nextId = parseInt(id) + 1;
@@ -79,8 +81,18 @@ export default {
                     this.data = response.data;
                 }
             )
+            .error(error=>{
+                console.log("Fetching data error "+error);
+            })
         },
         submit(){
+            axios.post('api/submit', this.inputs)
+            .then(response=>{
+                console.log(response.data);
+            })
+            .error(error=>{
+                console.log("submit form error "+error);
+            })
             
         }
     }
