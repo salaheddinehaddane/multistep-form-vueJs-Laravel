@@ -42,7 +42,6 @@
             </div>
         </div>
     </div>
-    {{ inputs }}
 </template>
 
 
@@ -61,7 +60,6 @@ export default {
     },
     methods: {
         action(e,id) {
-            console.log(this.inputs);
             if (e == 'next') {
                 this.progress++;
                 let nextId = parseInt(id) + 1;
